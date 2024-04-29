@@ -11,7 +11,7 @@ const uploads = require('../lib/utils/uploads');
 const pictureUploadMiddleware = uploads.pictureUpload.array('sp_picture_name', 10);
 const DEV_PROD_VARIABLE = require("../lib/config/config");
 
-const DAFAULT_NAME = '[storyRouter]';
+const DAFAULT_NAME = 'storyRouter';
 
 // --------------------------------- 스토리 router START --------------------------------------- //
 
@@ -54,10 +54,10 @@ storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
 });
 */
 
-// 스토리 가져오기
-storyRouter.get('/get_story', (req, res) => {
-    printLog(DAFAULT_NAME, '/story/get_story');
-    storyService.getStory(req, res);
+// 나 + 친구들의 모든 스토리 가져오기(홈 => 피드에 보이는 것)
+storyRouter.get('/get_all_storys', (req, res) => {
+    printLog(DAFAULT_NAME, '/story/get_all_storys');
+    storyService.getAllStorys(req, res);
 
 });
 

@@ -7,13 +7,12 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
 const { printLog } = require('./lib/utils/logger');
-const dotenv = require('dotenv');
 const DEV_PROD_VARIABLE = require('./lib/config/config');
 
 app.use(bodyParser.urlencoded({extended:false}));  
 app.use(compression());   
 
-const DAFAULT_NAME = '[main]';
+const DAFAULT_NAME = 'main';  
 
 // SESSION SETTING START
 let maxAge = 1000 * 60 * 30;
