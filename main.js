@@ -7,9 +7,11 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
 const { printLog } = require('./lib/utils/logger');
-const dotenv = require('dotenv');
+const cookieParser = require("cookie-parser");
+
 const DEV_PROD_VARIABLE = require('./lib/config/config');
 
+app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}));  
 app.use(compression());   
 
@@ -32,7 +34,7 @@ app.use(session(sessionObj));
 
 // CORS START
 app.use(cors({
-    origin: `http://localhost:${PORT}`,
+    origin: `http://localhost:3000`,
     credentials: true,
 }));
 // CORS END
@@ -41,9 +43,10 @@ app.use(cors({
 let passport = require('./lib/passport/passport')(app);
 
 // 로컬 로그인 확인
-app.post('/member/signin_confirm', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/member/sign_in_form'
+app.post('/member/signin_confirm', 
+    passport.authenticate('local', {
+        successRedirect: '/',
+        failureRedirect: '/member/sign_in_form'
 }));
 
 // 구글 로그인 확인

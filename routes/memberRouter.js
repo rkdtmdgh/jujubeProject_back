@@ -14,6 +14,8 @@ app.use(singleUploadMiddleware);
 router.post('/sign_up_confirm', singleUploadMiddleware, (req, res) => {
     printLog(DEFAULT_NAME, '/sign_up_confirm');
 
+    console.log('req.file====', req.file);
+
     memberService.sign_up_confirm(req, res);
 
 })
