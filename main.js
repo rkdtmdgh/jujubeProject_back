@@ -51,15 +51,17 @@ app.use(cors({
 const passport = pp.passport(app);
 
 // 로컬 로그인 확인
-app.post('/member/sign_in_confirm', 
-    passport.authenticate('local', {
-        successRedirect: '/member/sign_in_success', 
-        failureRedirect: '/member/sign_in_fail', 
-}));
+// app.post('/member/sign_in_confirm', 
+//     passport.authenticate('local', {
+//         successRedirect: '/member/sign_in_success', 
+//         failureRedirect: '/member/sign_in_fail', 
+// }));
 
-/*
+
 app.post('/member/sign_in_confirm', 
     async (req, res, next) => {
+
+        printLog(DEFAULT_NAME, '/member/sign_in_confirm');
 
         try {
             let conn = await pool.getConnection(async conn => conn);
@@ -67,81 +69,41 @@ app.post('/member/sign_in_confirm',
 
             let [member] = await conn.query(sql, [req.body.m_id]);
 
-            if (!member) {
-                printLog(DAFAULT_NAME, '존재하지 않는 아이디입니다');
+            console.log('member---', member);
+
+            if (!member[0]) {
+                printLog(DEFAULT_NAME, '존재하지 않는 아이디입니다');
                 return res.status(400).json({message: '존재하지 않는 아이디입니다'});
             }
 
-            if (bcrypt.compareSync(req.body.m_pw, member.M_PW)) {
+            if (bcrypt.compareSync(req.body.m_pw, member[0].M_PW)) {
 
                 const accessToken = jwt.sign(
                     {
-                        m_id: member.M_ID,
-                        m_name: member.M_NAME,
-                        m_email: member.M_EMAIL,
-                        m_phone: member.M_PHONE,
-                        m_gender: member.M_GENDER,
-                        m_self_introduction: member.M_SELF_INTRODUCTION,
-                        m_profile_thumbnail: member.M_PROFILE_THUMBNAIL
+                        m_id: member[0].M_ID
                     },
                     DEV_PROD_VARIABLE.ACCESS_SECRET,
                     {
-                        expiresIn: '30m'
+                        expiresIn: '1m',
+                        issuer : 'About Tech',
                     }
                 );
 
+                return res.status(200).cookie('accessToken', accessToken).json({message: '로그인 성공'});
+
             } else {
-                printLog(DAFAULT_NAME, '비밀번호 오류입니다.');
-                return res.status(400).json({message: '비밀번호 오류입니다.'});
+                printLog(DEFAULT_NAME, '비밀번호 오류입니다.');
+                return res.status(400).cookie('accessToken', '').json({message: '비밀번호 오류입니다.'});
             }
 
         } catch (error) {
-            
+            printLog(DEFAULT_NAME, `/member/sign_in_confirm error`, error);
+            next(error);
         }
-
-        // let post = req.body;
-
-        // console.log('m_id', post.m_id);
-        // console.log('m_pw', post.m_pw);
-        // console.log('req.body---', post);
-        
-        // let selectSql = `
-        //     SELECT * FROM TBL_MEMBER WHERE M_ID = ?
-        // `;
-
-        // DB.query(selectSql, [req.body.m_id], (err, member) => {
-
-        //     if (member.length <= 0) {
-        //         console.log('존재하지 않는 아이디입니다');
-        //         return res.status(404).json({message: '존재하지 않는 아이디입니다'});
-        //     }
-        //     if(bcrypt.compareSync(req.body.m_pw, member[0].M_PW)) {
-        //         const accessToken = jwt.sign(
-        //             {
-        //                 m_id: member[0].M_ID,
-        //                 m_name: member[0].M_NAME,
-        //                 m_email: member[0].M_EMAIL,
-        //                 m_phone: member[0].M_PHONE,
-        //                 m_gender: member[0].M_GENDER
-        //             },
-        //             DEV_PROD_VARIABLE.ACCESS_SECRET,
-        //             {
-        //                 expiresIn: '30m'
-        //             }
-        //         );
-
-        //         return res.status(200).cookie('access_token', accessToken, {httpOnly: true})
-
-        //     } else {
-        //         console.log('비밀번호가 일치하지 않습니다')
-        //         return res.status(400).json({message: '비밀번호가 일치하지 않습니다'});
-        //     }
-
-        // });
 
     }
 )
-*/
+
 
 // 구글 로그인 확인
 app.get('/auth/google', 
