@@ -6,7 +6,11 @@ const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
 const singleUploadMiddleware = uploads.profileUpload.single('m_profile_thumbnail');
 
+let pp = require('../lib/passport/passport.js');
+
 const DEFAULT_NAME = '[memberRouter]';
+
+let passport = pp.passport(app);
 
 app.use(singleUploadMiddleware);
 
@@ -45,7 +49,9 @@ router.get('/get_member', (req, res) => {
 })
 
 // 입력 회원 정보 가져오기
-router.get('/get_search_member', (req, res) => {
+router.get('/get_search_member', 
+    passport.authenticate('jwt', { session: false }), 
+    (req, res) => {
     printLog(DEFAULT_NAME, '/get_member');
 
     memberService.get_search_member(req, res);
