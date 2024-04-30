@@ -8,8 +8,16 @@ const compression = require('compression');
 const cors = require('cors');
 const { printLog } = require('./lib/utils/logger');
 const cookieParser = require("cookie-parser");
+const DB = require('./lib/db/DB');
+const pool = require('./lib/db/pool');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+
+let pp = require('./lib/passport/passport');
 
 const DEV_PROD_VARIABLE = require('./lib/config/config');
+
+const DEFAULT_NAME = '[main]';
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}));  
@@ -40,14 +48,60 @@ app.use(cors({
 // CORS END
 
 // PASSPORT SETTING START
-let passport = require('./lib/passport/passport')(app);
+const passport = pp.passport(app);
 
 // 로컬 로그인 확인
-app.post('/member/signin_confirm', 
+app.post('/member/sign_in_confirm', 
     passport.authenticate('local', {
-        successRedirect: '/',
-        failureRedirect: '/member/sign_in_form'
+        successRedirect: '/member/sign_in_success', 
+        failureRedirect: '/member/sign_in_fail', 
 }));
+
+// app.post('/member/sign_in_confirm', 
+//     (req, res) => {
+
+//         let post = req.body;
+
+//         console.log('m_id', post.m_id);
+//         console.log('m_pw', post.m_pw);
+//         console.log('req.body---', post);
+        
+//         let selectSql = `
+//             SELECT * FROM TBL_MEMBER WHERE M_ID = ?
+//         `;
+
+//         DB.query(selectSql, [req.body.m_id], (err, member) => {
+
+//             if (member.length <= 0) {
+//                 console.log('존재하지 않는 아이디입니다');
+//                 return res.status(404).json({message: '존재하지 않는 아이디입니다'});
+//             }
+//             if(bcrypt.compareSync(req.body.m_pw, member[0].M_PW)) {
+//                 const accessToken = jwt.sign(
+//                     {
+//                         m_id: member[0].M_ID,
+//                         m_name: member[0].M_NAME,
+//                         m_email: member[0].M_EMAIL,
+//                         m_phone: member[0].M_PHONE,
+//                         m_gender: member[0].M_GENDER
+//                     },
+//                     DEV_PROD_VARIABLE.ACCESS_SECRET,
+//                     {
+//                         expiresIn: '30m'
+//                     }
+//                 );
+
+//                 return res.status(200).cookie('access_token', accessToken, {httpOnly: true})
+
+//             } else {
+//                 console.log('비밀번호가 일치하지 않습니다')
+//                 return res.status(400).json({message: '비밀번호가 일치하지 않습니다'});
+//             }
+
+//         });
+
+//     }
+// )
 
 // 구글 로그인 확인
 app.get('/auth/google', 

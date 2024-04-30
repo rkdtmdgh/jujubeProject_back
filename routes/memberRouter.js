@@ -20,11 +20,35 @@ router.post('/sign_up_confirm', singleUploadMiddleware, (req, res) => {
 
 })
 
+// 로그인 성공
+router.get('/sign_in_success', (req, res) => {
+    printLog(DEFAULT_NAME, '/sign_in_success');
+
+    memberService.sign_in_success(req, res);
+
+})
+
+// 로그인 실패
+router.get('/sign_in_fail', (req, res) => {
+    printLog(DEFAULT_NAME, '/sign_in_fail');
+
+    memberService.sign_in_fail(req, res);
+
+})
+
 // 회원 정보 가져오기
 router.get('/get_member', (req, res) => {
     printLog(DEFAULT_NAME, '/get_member');
 
     memberService.get_member(req, res);
+
+})
+
+// 입력 회원 정보 가져오기
+router.get('/get_search_member', (req, res) => {
+    printLog(DEFAULT_NAME, '/get_member');
+
+    memberService.get_search_member(req, res);
 
 })
 
