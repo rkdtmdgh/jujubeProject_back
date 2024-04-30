@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}));  
 app.use(compression());   
 
-const DAFAULT_NAME = '[main]';
+const DAFAULT_NAME = 'main';  
 
 // SESSION SETTING START
 let maxAge = 1000 * 60 * 30;
