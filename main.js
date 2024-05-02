@@ -55,13 +55,13 @@ app.use(cors({
 const passport = pp.passport(app);
 
 // 로컬 로그인 확인
-app.post('/member/sign_in_confirm', 
-    passport.authenticate('local', {
-        successRedirect: '/member/sign_in_success', 
-        failureRedirect: '/member/sign_in_fail', 
-}));
+// app.post('/member/sign_in_confirm', 
+//     passport.authenticate('local', {
+//         successRedirect: '/member/sign_in_success', 
+//         failureRedirect: '/member/sign_in_fail', 
+// }));
 
-/*
+
 app.post('/member/sign_in_confirm', 
     async (req, res, next) => {
 
@@ -77,7 +77,7 @@ app.post('/member/sign_in_confirm',
 
             if (!member[0]) {
                 printLog(DEFAULT_NAME, '존재하지 않는 아이디입니다');
-                return res.status(400).json({message: '존재하지 않는 아이디입니다'});
+                return res.json({message: '존재하지 않는 아이디입니다'});
             }
 
             if (bcrypt.compareSync(req.body.m_pw, member[0].M_PW)) {
@@ -88,16 +88,33 @@ app.post('/member/sign_in_confirm',
                     },
                     DEV_PROD_VARIABLE.ACCESS_SECRET,
                     {
-                        expiresIn: '1m',
+                        expiresIn: '5m',
                         issuer : 'About Tech',
                     }
                 );
 
-                return res.status(200).cookie('Authorization', `Bearer${accessToken}`).json({message: '로그인 성공'});
+                const refreshToken = jwt.sign(
+                    {
+                        M_ID: member[0].M_ID,
+                        M_NAME: member[0].M_NAME,
+                        M_MAIL: member[0].M_MAIL,
+                        M_PHONE: member[0].M_PHONE,
+                        M_GENDER: member[0].M_GENDER,
+                        M_SELF_INTRODUCTION: member[0].M_SELF_INTRODUCTION,
+                        M_PROFILE_THUM: member[0].M_PROFILE_THUM,
+                    },
+                    DEV_PROD_VARIABLE.REFRESH_SECRET,
+                    {
+                        expiresIn: '30d',
+                        issuer : 'About Tech',
+                    }
+                );
+
+                return res.cookie('accessToken', accessToken).cookie('refreshToken', refreshToken).json({sessionID: accessToken});
 
             } else {
                 printLog(DEFAULT_NAME, '비밀번호 오류입니다.');
-                return res.status(400).cookie('accessToken', '').json({message: '비밀번호 오류입니다.'});
+                return res.cookie('accessToken', '').json({message: '비밀번호 오류입니다.'});
             }
 
         } catch (error) {
@@ -107,32 +124,36 @@ app.post('/member/sign_in_confirm',
 
     }
 )
-*/
+
 
 
 // 구글 로그인 확인
-app.post('/member/google_sign_in_confirm', 
+app.post('/auth/google', (req, res, next) => {
+    printLog(DEFAULT_NAME, '/auth/google');
+
+    const { token } = req.body;
+
+    console.log('token', token);
+
     passport.authenticate('google', (err, user, info) => {
-        printLog(DEFAULT_NAME, '/member/google_sign_in_confirm');
+        printLog(DEFAULT_NAME, '/auth/google');
         if (err) {
-            printLog(DEFAULT_NAME, `/member/google_sign_in_confirm error`, err);
+            printLog(DEFAULT_NAME, `/auth/google error`, err);
             return res.json(null);
         } 
 
         if (!user) {
-            printLog(DEFAULT_NAME, `/member/google_sign_in_confirm error`, info);
+            printLog(DEFAULT_NAME, `/auth/google error`, info);
             return res.json(null);
         }
 
-        req.login(user, loginErr => {
+        console.log('user---', user);
+        console.log('info---', info);
 
-        })
-    }
-));
+    })
+});
 
 // 구글 로그인 결과
-app.get('/auth/google', passport.authenticate('google', ["profile", "email"]));
-
 app.get('/auth/google/callback', 
     passport.authenticate('google', { 
         failureRedirect: '/member/sign_in_form' 

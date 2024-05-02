@@ -76,7 +76,7 @@ router.get('/get_search_member',
 })
 
 // 정보 수정 확인
-router.get('/modify_confirm', (req, res) => {
+router.post('/modify_confirm', singleUploadMiddleware, (req, res) => {
     printLog(DEFAULT_NAME, '/modify_confirm');
 
     memberService.modify_confirm(req, res);
