@@ -24,8 +24,8 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(compression());   
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'C:\\jujube\\upload\\profile_thums\\')));
-app.use(express.static(path.join(__dirname, 'C:\\jujube\\upload\\storyPictures\\')));
+app.use(express.static('C:\\jujube\\upload\\profile_thums\\'));
+app.use(express.static('C:\\jujube\\upload\\storyPictures\\'));
 
 const DAFAULT_NAME = '[main]';
 
@@ -111,13 +111,28 @@ app.post('/member/sign_in_confirm',
 
 
 // 구글 로그인 확인
-app.get('/auth/google', 
-    passport.authenticate('google', {
-        scope: ['https://www.googleapis.com/auth/plus.login', 'email'] 
+app.post('/member/google_sign_in_confirm', 
+    passport.authenticate('google', (err, user, info) => {
+        printLog(DEFAULT_NAME, '/member/google_sign_in_confirm');
+        if (err) {
+            printLog(DEFAULT_NAME, `/member/google_sign_in_confirm error`, err);
+            return res.json(null);
+        } 
+
+        if (!user) {
+            printLog(DEFAULT_NAME, `/member/google_sign_in_confirm error`, info);
+            return res.json(null);
+        }
+
+        req.login(user, loginErr => {
+
+        })
     }
 ));
 
 // 구글 로그인 결과
+app.get('/auth/google', passport.authenticate('google', ["profile", "email"]));
+
 app.get('/auth/google/callback', 
     passport.authenticate('google', { 
         failureRedirect: '/member/sign_in_form' 
