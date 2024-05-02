@@ -11,7 +11,7 @@ const uploads = require('../lib/utils/uploads');
 const pictureUploadMiddleware = uploads.pictureUpload.array('sp_picture_name', 10);
 const DEV_PROD_VARIABLE = require("../lib/config/config");
 
-const DAFAULT_NAME = '[storyRouter]';
+const DAFAULT_NAME = 'storyRouter';
 
 // --------------------------------- 스토리 router START --------------------------------------- //
 
@@ -43,7 +43,7 @@ const uploadMiddleware = upload.array('sp_picture_name', 10);
 // 스토리 작성 컨펌
 storyRouter.get('/write_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/write_confirm');
-    storyService. writeConfirm(req, res);
+    storyService. write_confirm(req, res);
 
 });
 /*
@@ -54,17 +54,32 @@ storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
 });
 */
 
-// 스토리 가져오기
-storyRouter.get('/get_story', (req, res) => {
-    printLog(DAFAULT_NAME, '/story/get_story');
-    storyService.getStory(req, res);
+// 나 + 친구들의 모든 스토리 가져오기(홈 => 피드에 보이는 것)
+storyRouter.get('/get_all_storys', (req, res) => {
+    printLog(DAFAULT_NAME, '/story/get_all_storys');
+    storyService.get_all_storys(req, res);
 
 });
+
+// 내 모든 스토리 가져오기 (내 피드에서 보이는 것)
+storyRouter.get('/get_my_storys', (req, res) => {
+    printLog(DAFAULT_NAME, '/story/get_my_storys');
+    storyService.get_my_storys(req, res);
+
+});
+
+// // 스토리 한개 가져오기 (modify용)
+storyRouter.get('/get_story', (req, res) => {
+    printLog(DAFAULT_NAME, '/story/get_story');
+    storyService.get_story(req, res);
+
+});
+
 
 // 스토리 수정 컨펌
 storyRouter.get('/modify_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/modify_confirm');
-    storyService.modifyConfirm(req, res);
+    storyService.modify_confirm(req, res);
 
 });
 
@@ -79,7 +94,7 @@ storyRouter.post('/modify_confirm', pictureUploadMiddleware, (req, res) => {
 // 스토리 삭제 컨펌
 storyRouter.get('/delete_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/delete_confirm');
-    storyService.deleteConfirm(req, res);
+    storyService.delete_confirm(req, res);
     
 });
 
@@ -126,5 +141,5 @@ replyRouter.get('/delete_confirm', (req, res) => {
 // --------------------------------- 댓글 router START --------------------------------------- //
 
 
-module.exports = {storyRouter: storyRouter, replyRouter: replyRouter};
+module.exports = {storyRouter, replyRouter};
 // module.exports = replyRouter;
