@@ -26,12 +26,12 @@ router.post('/sign_up_confirm', singleUploadMiddleware, (req, res) => {
 })
 
 // 로그인 확인
-// router.post('/sign_in_confirm', (req, res) => {
-//     printLog(DEFAULT_NAME, '/sign_in_confirm');
+router.post('/sign_in_confirm', (req, res) => {
+    printLog(DEFAULT_NAME, '/sign_in_confirm');
 
-//     memberService.sign_in_confirm(req, res);
+    memberService.sign_in_confirm(req, res);
 
-// })
+})
 
 // 구글 로그인 확인
 // router.post('/google_sign_in_confirm', (req, res) => {
