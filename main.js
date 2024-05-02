@@ -22,6 +22,7 @@ const DEFAULT_NAME = '[main]';
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}));  
 app.use(compression());   
+app.use(cookieParser());
 
 const DAFAULT_NAME = 'main';  
 
@@ -51,58 +52,58 @@ app.use(cors({
 const passport = pp.passport(app);
 
 // 로컬 로그인 확인
-// app.post('/member/sign_in_confirm', 
-//     passport.authenticate('local', {
-//         successRedirect: '/member/sign_in_success', 
-//         failureRedirect: '/member/sign_in_fail', 
-// }));
-
-
 app.post('/member/sign_in_confirm', 
-    async (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/member/sign_in_success', 
+        failureRedirect: '/member/sign_in_fail', 
+}));
 
-        printLog(DEFAULT_NAME, '/member/sign_in_confirm');
 
-        try {
-            let conn = await pool.getConnection(async conn => conn);
-            let sql = `SELECT * FROM TBL_MEMBER WHERE M_ID = ?`;
+// app.post('/member/sign_in_confirm', 
+//     async (req, res, next) => {
 
-            let [member] = await conn.query(sql, [req.body.m_id]);
+//         printLog(DEFAULT_NAME, '/member/sign_in_confirm');
 
-            console.log('member---', member);
+//         try {
+//             let conn = await pool.getConnection(async conn => conn);
+//             let sql = `SELECT * FROM TBL_MEMBER WHERE M_ID = ?`;
 
-            if (!member[0]) {
-                printLog(DEFAULT_NAME, '존재하지 않는 아이디입니다');
-                return res.status(400).json({message: '존재하지 않는 아이디입니다'});
-            }
+//             let [member] = await conn.query(sql, [req.body.m_id]);
 
-            if (bcrypt.compareSync(req.body.m_pw, member[0].M_PW)) {
+//             console.log('member---', member);
 
-                const accessToken = jwt.sign(
-                    {
-                        m_id: member[0].M_ID
-                    },
-                    DEV_PROD_VARIABLE.ACCESS_SECRET,
-                    {
-                        expiresIn: '1m',
-                        issuer : 'About Tech',
-                    }
-                );
+//             if (!member[0]) {
+//                 printLog(DEFAULT_NAME, '존재하지 않는 아이디입니다');
+//                 return res.status(400).json({message: '존재하지 않는 아이디입니다'});
+//             }
 
-                return res.status(200).cookie('accessToken', accessToken).json({message: '로그인 성공'});
+//             if (bcrypt.compareSync(req.body.m_pw, member[0].M_PW)) {
 
-            } else {
-                printLog(DEFAULT_NAME, '비밀번호 오류입니다.');
-                return res.status(400).cookie('accessToken', '').json({message: '비밀번호 오류입니다.'});
-            }
+//                 const accessToken = jwt.sign(
+//                     {
+//                         m_id: member[0].M_ID
+//                     },
+//                     DEV_PROD_VARIABLE.ACCESS_SECRET,
+//                     {
+//                         expiresIn: '1m',
+//                         issuer : 'About Tech',
+//                     }
+//                 );
 
-        } catch (error) {
-            printLog(DEFAULT_NAME, `/member/sign_in_confirm error`, error);
-            next(error);
-        }
+//                 return res.status(200).cookie('Authorization', `Bearer${accessToken}`).json({message: '로그인 성공'});
 
-    }
-)
+//             } else {
+//                 printLog(DEFAULT_NAME, '비밀번호 오류입니다.');
+//                 return res.status(400).cookie('accessToken', '').json({message: '비밀번호 오류입니다.'});
+//             }
+
+//         } catch (error) {
+//             printLog(DEFAULT_NAME, `/member/sign_in_confirm error`, error);
+//             next(error);
+//         }
+
+//     }
+// )
 
 
 // 구글 로그인 확인
