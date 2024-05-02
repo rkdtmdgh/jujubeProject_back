@@ -24,14 +24,10 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(compression());   
 app.use(cookieParser());
 
-<<<<<<< HEAD
 const DAFAULT_NAME = 'main';  
-=======
 app.use(express.static('C:\\jujube\\upload\\profile_thums\\'));
 app.use(express.static('C:\\jujube\\upload\\storyPictures\\'));
 
-const DAFAULT_NAME = '[main]';
->>>>>>> 6b9e50ffa18daa60b6401bfa731815421b235201
 
 // SESSION SETTING START
 let maxAge = 1000 * 60 * 30;
