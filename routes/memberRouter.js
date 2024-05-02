@@ -33,6 +33,14 @@ router.post('/sign_in_confirm', (req, res) => {
 
 })
 
+// 구글 로그인 확인
+// router.post('/google_sign_in_confirm', (req, res) => {
+//     printLog(DEFAULT_NAME, '/google_sign_in_confirm');
+
+//     memberService.google_sign_in_confirm(req, res);
+
+// })
+
 // 로그인 성공
 router.get('/sign_in_success', (req, res) => {
     printLog(DEFAULT_NAME, '/sign_in_success');
@@ -68,7 +76,7 @@ router.get('/get_search_member',
 })
 
 // 정보 수정 확인
-router.get('/modify_confirm', (req, res) => {
+router.post('/modify_confirm', singleUploadMiddleware, (req, res) => {
     printLog(DEFAULT_NAME, '/modify_confirm');
 
     memberService.modify_confirm(req, res);

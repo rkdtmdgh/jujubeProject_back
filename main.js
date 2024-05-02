@@ -24,7 +24,14 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(compression());   
 app.use(cookieParser());
 
+<<<<<<< HEAD
 const DAFAULT_NAME = 'main';  
+=======
+app.use(express.static('C:\\jujube\\upload\\profile_thums\\'));
+app.use(express.static('C:\\jujube\\upload\\storyPictures\\'));
+
+const DAFAULT_NAME = '[main]';
+>>>>>>> 6b9e50ffa18daa60b6401bfa731815421b235201
 
 // SESSION SETTING START
 let maxAge = 1000 * 60 * 30;
@@ -52,66 +59,38 @@ app.use(cors({
 const passport = pp.passport(app);
 
 // 로컬 로그인 확인
-app.post('/member/sign_in_confirm', 
-    passport.authenticate('local', {
-        successRedirect: '/member/sign_in_success', 
-        failureRedirect: '/member/sign_in_fail', 
-}));
-
-
 // app.post('/member/sign_in_confirm', 
-//     async (req, res, next) => {
-
-//         printLog(DEFAULT_NAME, '/member/sign_in_confirm');
-
-//         try {
-//             let conn = await pool.getConnection(async conn => conn);
-//             let sql = `SELECT * FROM TBL_MEMBER WHERE M_ID = ?`;
-
-//             let [member] = await conn.query(sql, [req.body.m_id]);
-
-//             console.log('member---', member);
-
-//             if (!member[0]) {
-//                 printLog(DEFAULT_NAME, '존재하지 않는 아이디입니다');
-//                 return res.status(400).json({message: '존재하지 않는 아이디입니다'});
-//             }
-
-//             if (bcrypt.compareSync(req.body.m_pw, member[0].M_PW)) {
-
-//                 const accessToken = jwt.sign(
-//                     {
-//                         m_id: member[0].M_ID
-//                     },
-//                     DEV_PROD_VARIABLE.ACCESS_SECRET,
-//                     {
-//                         expiresIn: '1m',
-//                         issuer : 'About Tech',
-//                     }
-//                 );
-
-//                 return res.status(200).cookie('Authorization', `Bearer${accessToken}`).json({message: '로그인 성공'});
-
-//             } else {
-//                 printLog(DEFAULT_NAME, '비밀번호 오류입니다.');
-//                 return res.status(400).cookie('accessToken', '').json({message: '비밀번호 오류입니다.'});
-//             }
-
-//         } catch (error) {
-//             printLog(DEFAULT_NAME, `/member/sign_in_confirm error`, error);
-//             next(error);
-//         }
-
-//     }
-// )
+//     passport.authenticate('local', {
+//         successRedirect: '/member/sign_in_success', 
+//         failureRedirect: '/member/sign_in_fail', 
+// }));
 
 
 // 구글 로그인 확인
-app.get('/auth/google', 
-    passport.authenticate('google', {
-        scope: ['https://www.googleapis.com/auth/plus.login', 'email'] 
-    }
-));
+app.post('/auth/google', (req, res, next) => {
+    printLog(DEFAULT_NAME, '/auth/google');
+
+    const { token } = req.body;
+
+    console.log('token', token);
+
+    passport.authenticate('google', (err, user, info) => {
+        printLog(DEFAULT_NAME, '/auth/google');
+        if (err) {
+            printLog(DEFAULT_NAME, `/auth/google error`, err);
+            return res.json(null);
+        } 
+
+        if (!user) {
+            printLog(DEFAULT_NAME, `/auth/google error`, info);
+            return res.json(null);
+        }
+
+        console.log('user---', user);
+        console.log('info---', info);
+
+    })
+});
 
 // 구글 로그인 결과
 app.get('/auth/google/callback', 
