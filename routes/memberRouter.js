@@ -127,7 +127,7 @@ router.post('/friend_delete_confirm', (req, res) => {
 router.get('/get_friend_count', (req, res) => {
     printLog(DEFAULT_NAME, '/friend_count');
 
-    memberService.friend_count(req, res);
+    memberService.get_friend_count(req, res);
 
 })
 
@@ -135,7 +135,7 @@ router.get('/get_friend_count', (req, res) => {
 router.get('/get_friend_list', (req, res) => {
     printLog(DEFAULT_NAME, '/friend_list');
 
-    memberService.friend_list(req, res);
+    memberService.get_friend_list(req, res);
 
 })
 
