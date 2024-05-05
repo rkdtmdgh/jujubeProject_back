@@ -123,4 +123,21 @@ router.post('/friend_delete_confirm', (req, res) => {
 
 })
 
+// 친구 수 카운트
+router.get('/get_friend_count', (req, res) => {
+    printLog(DEFAULT_NAME, '/friend_count');
+
+    memberService.get_friend_count(req, res);
+
+})
+
+// 친구 목록 가져오기
+router.get('/get_friend_list', (req, res) => {
+    printLog(DEFAULT_NAME, '/friend_list');
+
+    memberService.get_friend_list(req, res);
+
+})
+
+
 module.exports = router;

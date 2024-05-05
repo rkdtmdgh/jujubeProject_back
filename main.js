@@ -72,6 +72,7 @@ app.post('/auth/google', (req, res, next) => {
 
     passport.authenticate('google', (err, user, info) => {
         printLog(DEFAULT_NAME, '/auth/google');
+
         if (err) {
             printLog(DEFAULT_NAME, `/auth/google error`, err);
             return res.json(null);
