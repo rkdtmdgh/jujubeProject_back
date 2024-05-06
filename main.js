@@ -63,6 +63,7 @@ const passport = pp.passport(app);
 
 
 // 구글 로그인 확인
+
 app.post('/auth/google', (req, res, next) => {
     printLog(DEFAULT_NAME, '/auth/google');
 
@@ -89,14 +90,7 @@ app.post('/auth/google', (req, res, next) => {
     })
 });
 
-// 구글 로그인 결과
-app.get('/auth/google/callback', 
-    passport.authenticate('google', { 
-        failureRedirect: '/member/sign_in_form' 
-    }),
-    function(req, res) {
-        res.redirect('/');
-});
+
 // PASSPORT SETTING END
 
 app.get('/', (req, res) => {
