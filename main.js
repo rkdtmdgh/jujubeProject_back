@@ -8,10 +8,6 @@ const compression = require('compression');
 const cors = require('cors');
 const { printLog } = require('./lib/utils/logger');
 const cookieParser = require("cookie-parser");
-const DB = require('./lib/db/DB');
-const pool = require('./lib/db/pool');
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 
 let pp = require('./lib/passport/passport');
 

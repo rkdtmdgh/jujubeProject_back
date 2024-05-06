@@ -6,11 +6,7 @@ const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
 const singleUploadMiddleware = uploads.profileUpload.single('m_profile_thumbnail');
 
-let pp = require('../lib/passport/passport.js');
-
 const DEFAULT_NAME = '[memberRouter]';
-
-let passport = pp.passport(app);
 
 app.use(singleUploadMiddleware);
 
@@ -38,21 +34,6 @@ router.post('/google_sign_in_confirm', (req, res) => {
 
 })
 
-// 로그인 성공
-router.get('/sign_in_success', (req, res) => {
-    printLog(DEFAULT_NAME, '/sign_in_success');
-
-    memberService.sign_in_success(req, res);
-
-})
-
-// 로그인 실패
-router.get('/sign_in_fail', (req, res) => {
-    printLog(DEFAULT_NAME, '/sign_in_fail');
-
-    memberService.sign_in_fail(req, res);
-
-})
 
 // 회원 정보 가져오기
 router.get('/get_member', (req, res) => {
