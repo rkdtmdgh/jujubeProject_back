@@ -138,8 +138,7 @@ replyRouter.get('/delete_confirm', (req, res) => {
 
 
 
-// --------------------------------- 댓글 router START --------------------------------------- //
+// --------------------------------- 댓글 router END --------------------------------------- //
 
 
 module.exports = {storyRouter, replyRouter};
-// module.exports = replyRouter;
