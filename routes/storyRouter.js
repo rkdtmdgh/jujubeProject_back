@@ -8,7 +8,7 @@ const uuid4 = require('uuid4');
 const path = require('path');
 const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
-const pictureUploadMiddleware = uploads.pictureUpload.array('sp_picture_name', 10);
+const pictureUploadMiddleware = uploads.pictureUpload.array('images', 10);
 const DEV_PROD_VARIABLE = require("../lib/config/config");
 
 const DAFAULT_NAME = 'storyRouter';
@@ -41,18 +41,39 @@ const uploadMiddleware = upload.array('sp_picture_name', 10);
 
 
 // 스토리 작성 컨펌
+
+/*
 storyRouter.get('/write_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/write_confirm');
     storyService. write_confirm(req, res);
 
 });
-/*
+*/
+
 storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/write_confirm');
-    storyService.writeConfirm(req, res);
+
+    const post = req.body;
+
+    console.log('post---', post);
+    console.log('req', req);
+
+    // const fileCount = req.body[2].length; //넘어온 이미지 갯수
+    // const timeStamp = new Date();
+    
+    // for (let i = 0; i < fileCount; i++) {
+    //     const imgPathTemp = `C:\\jujube\\upload\\profile_thums\\`;
+    //     let fileName = imgPathTemp + "_" + timeStamp + "_" + i + ".jpg";
+
+    //     /*이미지 저장 */
+    //     fs.writeFileSync(fileName, req.body.sendImgs[i].replace(/^data:image\/jpeg;base64,/, ""), "base64");
+
+    // }
+
+    // storyService.write_confirm(req, res);
 
 });
-*/
+
 
 // 나 + 친구들의 모든 스토리 가져오기(홈 => 피드에 보이는 것)
 storyRouter.get('/get_all_storys', (req, res) => {
