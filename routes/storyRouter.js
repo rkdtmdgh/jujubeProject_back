@@ -8,7 +8,7 @@ const uuid4 = require('uuid4');
 const path = require('path');
 const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
-const pictureUploadMiddleware = uploads.pictureUpload.array('files', 10);
+const pictureUploadMiddleware = uploads.pictureUpload.array('images', 10);
 const DEV_PROD_VARIABLE = require("../lib/config/config");
 
 const DAFAULT_NAME = 'storyRouter';
@@ -52,7 +52,25 @@ storyRouter.get('/write_confirm', (req, res) => {
 
 storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/write_confirm');
-    storyService.write_confirm(req, res);
+
+    const post = req.body;
+
+    console.log('post---', post);
+    console.log('req', req);
+
+    // const fileCount = req.body[2].length; //넘어온 이미지 갯수
+    // const timeStamp = new Date();
+    
+    // for (let i = 0; i < fileCount; i++) {
+    //     const imgPathTemp = `C:\\jujube\\upload\\profile_thums\\`;
+    //     let fileName = imgPathTemp + "_" + timeStamp + "_" + i + ".jpg";
+
+    //     /*이미지 저장 */
+    //     fs.writeFileSync(fileName, req.body.sendImgs[i].replace(/^data:image\/jpeg;base64,/, ""), "base64");
+
+    // }
+
+    // storyService.write_confirm(req, res);
 
 });
 
