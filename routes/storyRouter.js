@@ -8,7 +8,7 @@ const uuid4 = require('uuid4');
 const path = require('path');
 const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
-const pictureUploadMiddleware = uploads.pictureUpload.array('sp_picture_name', 10);
+const pictureUploadMiddleware = uploads.pictureUpload.array('files', 10);
 const DEV_PROD_VARIABLE = require("../lib/config/config");
 
 const DAFAULT_NAME = 'storyRouter';
