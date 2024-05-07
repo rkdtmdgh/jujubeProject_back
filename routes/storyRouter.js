@@ -41,18 +41,21 @@ const uploadMiddleware = upload.array('sp_picture_name', 10);
 
 
 // 스토리 작성 컨펌
+
+/*
 storyRouter.get('/write_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/write_confirm');
     storyService. write_confirm(req, res);
 
 });
-/*
+*/
+
 storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/write_confirm');
-    storyService.writeConfirm(req, res);
+    storyService.write_confirm(req, res);
 
 });
-*/
+
 
 // 나 + 친구들의 모든 스토리 가져오기(홈 => 피드에 보이는 것)
 storyRouter.get('/get_all_storys', (req, res) => {
