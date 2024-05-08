@@ -41,15 +41,6 @@ const uploadMiddleware = upload.array('sp_picture_name', 10);
 
 
 // 스토리 작성 컨펌
-
-/*
-storyRouter.get('/write_confirm', (req, res) => {
-    printLog(DAFAULT_NAME, '/story/write_confirm');
-    storyService. write_confirm(req, res);
-
-});
-*/
-
 storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/write_confirm');
 
@@ -131,9 +122,9 @@ replyRouter.get('/reply_write_confirm', (req, res) => {
 });
 
 /*
-replyRouter.post('/write_confirm', (req, res) => {
-    printLog(DAFAULT_NAME, '/reply/write_confirm');
-    replyService.writeConfirm(req, res);
+replyRouter.post('/reply_write_confirm', (req, res) => {
+    printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
+    replyService.reply_write_confirm(req, res);
 
 });
 */
