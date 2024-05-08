@@ -167,20 +167,11 @@ replyRouter.post('/reply_write_confirm', (req, res) => {
 
 
 // 대댓글 등록 컨펌
-
-replyRouter.get('/re_reply_write_confirm', (req, res) => {
-    printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
-    replyService.re_reply_write_confirm(req, res);
-
-});
-
-/*
 replyRouter.post('/re_reply_write_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
     replyService.re_reply_write_confirm(req, res);
 
 });
-*/
 
 // 스토리에 대한 댓글 가져오기
 replyRouter.get('/get_replys', (req, res) => {
