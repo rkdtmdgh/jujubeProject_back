@@ -173,6 +173,22 @@ replyRouter.post('/reply_write_confirm', (req, res) => {
 });
 */
 
+// 대댓글 등록 컨펌
+
+replyRouter.get('/re_reply_write_confirm', (req, res) => {
+    printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
+    replyService.re_reply_write_confirm(req, res);
+
+});
+
+/*
+replyRouter.post('/re_reply_write_confirm', (req, res) => {
+    printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
+    replyService.re_reply_write_confirm(req, res);
+
+});
+*/
+
 // 스토리에 대한 댓글 가져오기
 replyRouter.get('/get_replys', (req, res) => {
     printLog(DAFAULT_NAME, '/reply/get_replys');
@@ -190,18 +206,18 @@ replyRouter.get('/get_re_replys', (req, res) => {
 // 댓글 수정 컨펌
 replyRouter.get('/modify_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/reply/modify_confirm');
-    replyService.modifyConfirm(req, res);
+    replyService.modify_confirm(req, res);
 
 });
 
 // 댓글 삭제 컨펌
-/*
+
 replyRouter.get('/delete_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/reply/delete_confirm');
-    replyService.deleteConfirm(req, res);
+    replyService.delete_confirm(req, res);
     
 });
-*/
+
 
 
 
