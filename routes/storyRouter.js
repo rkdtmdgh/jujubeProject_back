@@ -56,7 +56,7 @@ storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
     const post = req.body;
 
     console.log('post---', post);
-    console.log('req', req);
+    console.log('req', req.files);
 
     // const fileCount = req.body[2].length; //넘어온 이미지 갯수
     // const timeStamp = new Date();
