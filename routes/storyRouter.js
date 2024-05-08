@@ -159,19 +159,21 @@ storyRouter.get('/delete_confirm', (req, res) => {
 
 // --------------------------------- 댓글 router START --------------------------------------- //
 // 댓글 등록 컨펌
+/*
 replyRouter.get('/reply_write_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
     replyService.reply_write_confirm(req, res);
 
 });
+*/
 
-/*
+
 replyRouter.post('/reply_write_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
     replyService.reply_write_confirm(req, res);
 
 });
-*/
+
 
 // 대댓글 등록 컨펌
 
