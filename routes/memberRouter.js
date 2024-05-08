@@ -1,4 +1,5 @@
 const express = require('express');
+const Jimp = require('jimp');
 const app = express();
 const router = express.Router();
 const memberService = require('../lib/service/memberService');
@@ -14,7 +15,41 @@ app.use(singleUploadMiddleware);
 router.post('/sign_up_confirm', singleUploadMiddleware, (req, res) => {
     printLog(DEFAULT_NAME, '/sign_up_confirm');
 
-    memberService.sign_up_confirm(req, res);
+    try {
+
+        if(req.file.path === undefined) return;
+
+        Jimp.read(req.file.path)
+            .then((image) => {
+                const maxWidth = 150; // 가로 너비 최대값
+                const maxHeight = 150; // 세로 높이 최대값
+            
+                let width, height;
+            
+                // 가로 너비를 400픽셀로 고정하고 세로 높이를 원본 비율에 맞춰 계산
+                width = maxWidth;
+                height = image.bitmap.height * (width / image.bitmap.width);
+            
+                // 세로 높이가 400픽셀을 초과하면 세로 높이를 400픽셀로 고정하고 가로 너비를 원본 비율에 맞춰 계산
+                if (height > maxHeight) {
+                    height = maxHeight;
+                    width = image.bitmap.width * (height / image.bitmap.height);
+                }
+
+                image
+                    .resize(width, height)
+                    .quality(80)
+                    .write(req.file.path)
+
+            })
+
+    } catch (error) {
+        printLog(DEFAULT_NAME, '/sign_up_confirm jimp error', error);
+
+    } finally {
+        memberService.sign_up_confirm(req, res);
+
+    }
 
 })
 
@@ -57,7 +92,41 @@ router.get('/get_search_member',
 router.post('/modify_confirm', singleUploadMiddleware, (req, res) => {
     printLog(DEFAULT_NAME, '/modify_confirm');
 
-    memberService.modify_confirm(req, res);
+    try {
+
+        if (req.file.path === undefined) return;
+
+        Jimp.read(req.file.path)
+        .then((image) => {
+            const maxWidth = 150; // 가로 너비 최대값
+            const maxHeight = 150; // 세로 높이 최대값
+        
+            let width, height;
+        
+            // 가로 너비를 400픽셀로 고정하고 세로 높이를 원본 비율에 맞춰 계산
+            width = maxWidth;
+            height = image.bitmap.height * (width / image.bitmap.width);
+        
+            // 세로 높이가 400픽셀을 초과하면 세로 높이를 400픽셀로 고정하고 가로 너비를 원본 비율에 맞춰 계산
+            if (height > maxHeight) {
+                height = maxHeight;
+                width = image.bitmap.width * (height / image.bitmap.height);
+            }
+
+            image
+                .resize(width, height)
+                .quality(80)
+                .write(req.file.path)
+
+        })
+
+    } catch (error) {
+        printLog(DEFAULT_NAME, '/modify_confirm jimp error', error);
+
+    } finally {
+        memberService.modify_confirm(req, res);
+
+    }
 
 })
 
