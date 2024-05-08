@@ -168,9 +168,9 @@ storyRouter.get('/delete_confirm', (req, res) => {
 
 // --------------------------------- 댓글 router START --------------------------------------- //
 // 댓글 등록 컨펌
-replyRouter.get('/write_confirm', (req, res) => {
-    printLog(DAFAULT_NAME, '/reply/write_confirm');
-    replyService.writeConfirm(req, res);
+replyRouter.get('/reply_write_confirm', (req, res) => {
+    printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
+    replyService.reply_write_confirm(req, res);
 
 });
 
@@ -181,6 +181,20 @@ replyRouter.post('/write_confirm', (req, res) => {
 
 });
 */
+
+// 스토리에 대한 댓글 가져오기
+replyRouter.get('/get_replys', (req, res) => {
+    printLog(DAFAULT_NAME, '/reply/get_replys');
+    replyService.get_replys(req, res);
+
+});
+
+// 댓글 한개에 대한 대댓글 가져오기
+replyRouter.get('/get_re_replys', (req, res) => {
+    printLog(DAFAULT_NAME, '/reply/get_re_replys');
+    replyService.get_re_replys(req, res);
+
+});
 
 // 댓글 수정 컨펌
 replyRouter.get('/modify_confirm', (req, res) => {
