@@ -196,7 +196,7 @@ replyRouter.get('/modify_confirm', (req, res) => {
 
 // 댓글 삭제 컨펌
 
-replyRouter.get('/delete_confirm', (req, res) => {
+replyRouter.delete('/delete_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/reply/delete_confirm');
     replyService.delete_confirm(req, res);
     
