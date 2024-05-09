@@ -10,8 +10,7 @@ const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
 const pictureUploadMiddleware = uploads.pictureUpload.array('files', 10);
 const DEV_PROD_VARIABLE = require("../lib/config/config");
-const sharp = require('sharp');
-const fs = require('fs');
+
 const Jimp = require('jimp');
 
 const DAFAULT_NAME = 'storyRouter';
