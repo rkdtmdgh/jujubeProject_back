@@ -148,7 +148,7 @@ storyRouter.post('/modify_confirm', pictureUploadMiddleware, (req, res) => {
 */
 
 // 스토리 삭제 컨펌
-storyRouter.get('/delete_confirm', (req, res) => {
+storyRouter.delete('/delete_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/delete_confirm');
     storyService.delete_confirm(req, res);
     
@@ -168,7 +168,7 @@ replyRouter.post('/reply_write_confirm', (req, res) => {
 
 // 대댓글 등록 컨펌
 replyRouter.post('/re_reply_write_confirm', (req, res) => {
-    printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
+    printLog(DAFAULT_NAME, '/reply/re_reply_write_confirm');
     replyService.re_reply_write_confirm(req, res);
 
 });
