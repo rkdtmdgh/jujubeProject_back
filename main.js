@@ -70,4 +70,4 @@ app.use('/story/story', storyRouter.storyRouter);
 app.use('/story/reply', storyRouter.replyRouter);
 // ROUTER SETTING END
 
-app.listen(PORT);
+app.listen(PORT, "0.0.0.0");
