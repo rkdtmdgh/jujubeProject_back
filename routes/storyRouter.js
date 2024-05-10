@@ -152,14 +152,7 @@ storyRouter.delete('/delete_confirm', (req, res) => {
     storyService.delete_confirm(req, res);
     
 });
-
 // 스토리 좋아요 업데이트
-// storyRouter.get('/story_like_update', (req, res) => {
-//     printLog(DAFAULT_NAME, '/story/story_like_update');
-//     storyService.story_like_update(req, res);
-
-// });
-
 storyRouter.post('/story_like_update', (req, res) => {
     printLog(DAFAULT_NAME, '/story/story_like_update');
     storyService.story_like_update(req, res);
