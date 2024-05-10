@@ -3,13 +3,10 @@ const storyRouter = express.Router();
 const replyRouter = express.Router();
 const storyService = require('../lib/service/storyService');
 const replyService = require('../lib/service/replyService');
-const multer = require('multer');
-const uuid4 = require('uuid4');
-const path = require('path');
 const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
 const pictureUploadMiddleware = uploads.pictureUpload.array('files', 10);
-const DEV_PROD_VARIABLE = require("../lib/config/config");
+const { authAcceccToken } = require('../lib/middleware/authorization')
 
 const Jimp = require('jimp');
 
@@ -17,33 +14,8 @@ const DAFAULT_NAME = 'storyRouter';
 
 // --------------------------------- 스토리 router START --------------------------------------- //
 
-// 파일 업로드
-/*
-const upload = multer({
-    storage : multer.diskStorage({
-        destination(req, file, done) {
-            done(null, 'D:\\LSY\\Programming\\8_node_js\\pjt\\jujubeProject\\story_pic')
-            // `/home/ubuntu/member/upload/profile_thums/${req.body.m_id}/`
-        },
-        filename(req, file, done) {
-            console.log('file', file);
-            let uuid = uuid4();
-            let extname = path.extname(file.originalname);
-            var filename = uuid + extname;
-            done(null, filename);
-        }
-    }),
-    limits : {
-        fileSize : 1024 * 1024
-    }
-});
-
-const uploadMiddleware = upload.array('sp_picture_name', 10);
-*/
-
-
 // 스토리 작성 컨펌
-storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
+storyRouter.post('/write_confirm', authAcceccToken, pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/write_confirm');
 
     try {
@@ -110,21 +82,21 @@ storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
 
 
 // 나 + 친구들의 모든 스토리 가져오기(홈 => 피드에 보이는 것)
-storyRouter.get('/get_all_storys', (req, res) => {
+storyRouter.get('/get_all_storys', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/story/get_all_storys');
     storyService.get_all_storys(req, res);
 
 });
 
 // 내 모든 스토리 가져오기 (내 피드에서 보이는 것)
-storyRouter.get('/get_my_storys', (req, res) => {
+storyRouter.get('/get_my_storys', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/story/get_my_storys');
     storyService.get_my_storys(req, res);
 
 });
 
 // // 스토리 한개 가져오기 (modify용)
-storyRouter.get('/get_story', (req, res) => {
+storyRouter.get('/get_story', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/story/get_story');
     storyService.get_story(req, res);
 
@@ -132,14 +104,14 @@ storyRouter.get('/get_story', (req, res) => {
 
 
 // 스토리 수정 컨펌
-storyRouter.get('/modify_confirm', (req, res) => {
+storyRouter.get('/modify_confirm', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/story/modify_confirm');
     storyService.modify_confirm(req, res);
 
 });
 
 /*
-storyRouter.post('/modify_confirm', pictureUploadMiddleware, (req, res) => {
+storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/modify_confirm');
     storyService.modifyConfirm(req, res);
 
@@ -147,13 +119,13 @@ storyRouter.post('/modify_confirm', pictureUploadMiddleware, (req, res) => {
 */
 
 // 스토리 삭제 컨펌
-storyRouter.delete('/delete_confirm', (req, res) => {
+storyRouter.delete('/delete_confirm', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/story/delete_confirm');
     storyService.delete_confirm(req, res);
     
 });
 // 스토리 좋아요 업데이트
-storyRouter.post('/story_like_update', (req, res) => {
+storyRouter.post('/story_like_update', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/story/story_like_update');
     storyService.story_like_update(req, res);
 
@@ -164,7 +136,7 @@ storyRouter.post('/story_like_update', (req, res) => {
 
 // --------------------------------- 댓글 router START --------------------------------------- //
 // 댓글 등록 컨펌
-replyRouter.post('/reply_write_confirm', (req, res) => {
+replyRouter.post('/reply_write_confirm', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/reply/reply_write_confirm');
     replyService.reply_write_confirm(req, res);
 
@@ -172,28 +144,28 @@ replyRouter.post('/reply_write_confirm', (req, res) => {
 
 
 // 대댓글 등록 컨펌
-replyRouter.post('/re_reply_write_confirm', (req, res) => {
+replyRouter.post('/re_reply_write_confirm', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/reply/re_reply_write_confirm');
     replyService.re_reply_write_confirm(req, res);
 
 });
 
 // 스토리에 대한 댓글 가져오기
-replyRouter.get('/get_replys', (req, res) => {
+replyRouter.get('/get_replys', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/reply/get_replys');
     replyService.get_replys(req, res);
 
 });
 
 // 댓글 한개에 대한 대댓글 가져오기
-replyRouter.get('/get_re_replys', (req, res) => {
+replyRouter.get('/get_re_replys', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/reply/get_re_replys');
     replyService.get_re_replys(req, res);
 
 });
 
 // 댓글 수정 컨펌
-replyRouter.get('/modify_confirm', (req, res) => {
+replyRouter.get('/modify_confirm', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/reply/modify_confirm');
     replyService.modify_confirm(req, res);
 
