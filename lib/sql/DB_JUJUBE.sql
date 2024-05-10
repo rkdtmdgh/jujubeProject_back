@@ -369,6 +369,35 @@ SHOW INDEX FROM TBL_FRIEND;
 
 -- --------------------------------------------------------
 
+
+-- 토큰 테이블 미구현 ----------------------
+CREATE TABLE TBL_TOKEN(
+    M_ID VARCHAR(20) NOT NULL UNIQUE,
+    TOKEN VARCHAR(1000) NOT NULL,
+    REG_DATE DATETIME DEFAULT NOW()
+);
+
+SELECT * FROM TBL_TOKEN;
+DELETE FROM TBL_TOKEN;
+DROP TABLE TBL_TOKEN;
+
+-- 매일 한번 실행하여 30일이 지난 토큰을 지운다.
+CREATE EVENT IF NOT EXISTS delete_expired_tokens_event
+ON SCHEDULE 
+	EVERY 1 DAY -- 매일 실행
+DO
+	DELETE FROM TBL_TOKEN 
+    WHERE REG_DATE < DATE_SUB(NOW(), INTERVAL 30 DAY);
+
+
+SHOW EVENTS;
+DROP EVENT delete_expired_tokens_event;
+
+
+-- --------------------------------------------------------
+
+
+
 -- 신고 테이블 미구현(구현 여부 미정)----------------------
 
 -- --------------------------------------------------------
