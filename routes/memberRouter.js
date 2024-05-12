@@ -5,11 +5,12 @@ const router = express.Router();
 const memberService = require('../lib/service/memberService');
 const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
+const { authAcceccToken } = require('../lib/middleware/authorization');
 const singleUploadMiddleware = uploads.profileUpload.single('m_profile_thumbnail');
 
 const DEFAULT_NAME = '[memberRouter]';
 
-app.use(singleUploadMiddleware);
+// app.use(singleUploadMiddleware);
 
 // 로컬 회원 가입 확인
 router.post('/sign_up_confirm', singleUploadMiddleware, (req, res) => {
@@ -47,7 +48,7 @@ router.post('/sign_up_confirm', singleUploadMiddleware, (req, res) => {
         printLog(DEFAULT_NAME, '/sign_up_confirm jimp error', error);
 
     } finally {
-        memberService.sign_up_confirm(req, res);
+        result = memberService.sign_up_confirm(req, res);
 
     }
 
@@ -71,7 +72,7 @@ router.post('/google_sign_in_confirm', (req, res) => {
 
 
 // 회원 정보 가져오기
-router.get('/get_member', (req, res) => {
+router.get('/get_member', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/get_member');
 
     memberService.get_member(req, res);
@@ -89,12 +90,12 @@ router.get('/get_search_member',
 })
 
 // 정보 수정 확인
-router.post('/modify_confirm', singleUploadMiddleware, (req, res) => {
+router.post('/modify_confirm', authAcceccToken, singleUploadMiddleware, (req, res) => {
     printLog(DEFAULT_NAME, '/modify_confirm');
 
     try {
 
-        if (req.file.path === undefined) return;
+        if (req.file === undefined || req.file === null) return;
 
         Jimp.read(req.file.path)
         .then((image) => {
