@@ -72,7 +72,7 @@ router.post('/google_sign_in_confirm', (req, res) => {
 
 
 // 회원 정보 가져오기
-router.get('/get_member', (req, res) => {
+router.get('/get_member', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/get_member');
 
     memberService.get_member(req, res);
@@ -95,7 +95,7 @@ router.post('/modify_confirm', authAcceccToken, singleUploadMiddleware, (req, re
 
     try {
 
-        if (req.file.path === undefined) return;
+        if (req.file === undefined || req.file === null) return;
 
         Jimp.read(req.file.path)
         .then((image) => {
