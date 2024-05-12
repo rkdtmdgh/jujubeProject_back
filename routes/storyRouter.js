@@ -15,7 +15,7 @@ const DAFAULT_NAME = 'storyRouter';
 // --------------------------------- 스토리 router START --------------------------------------- //
 
 // 스토리 작성 컨펌
-storyRouter.post('/write_confirm', authAcceccToken, pictureUploadMiddleware, (req, res) => {
+storyRouter.post('/write_confirm', pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/write_confirm');
 
     try {
@@ -119,11 +119,18 @@ storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware, (r
 */
 
 // 스토리 삭제 컨펌
-storyRouter.delete('/delete_confirm', authAcceccToken, (req, res) => {
+storyRouter.delete('/delete_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/delete_confirm');
     storyService.delete_confirm(req, res);
     
 });
+
+// storyRouter.get('/delete_confirm', authAcceccToken, (req, res) => {
+//     printLog(DAFAULT_NAME, '/story/delete_confirm');
+//     storyService.delete_confirm(req, res);
+    
+// });
+
 // 스토리 좋아요 업데이트
 storyRouter.post('/story_like_update', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/story/story_like_update');

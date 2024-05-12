@@ -18,6 +18,7 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
+    "fs-extra": "^11.2.0",
     "google-auth-library": "^9.9.0",
     "jimp": "^0.22.12",
     "jsonwebtoken": "^9.0.2",
