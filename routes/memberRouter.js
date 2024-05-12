@@ -5,7 +5,7 @@ const router = express.Router();
 const memberService = require('../lib/service/memberService');
 const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
-const { authAcceccToken } = require('../lib/middleware/authorization');
+const { authAcceccToken, getAccessToken } = require('../lib/middleware/authorization');
 const singleUploadMiddleware = uploads.profileUpload.single('m_profile_thumbnail');
 
 const DEFAULT_NAME = '[memberRouter]';
@@ -48,7 +48,7 @@ router.post('/sign_up_confirm', singleUploadMiddleware, (req, res) => {
         printLog(DEFAULT_NAME, '/sign_up_confirm jimp error', error);
 
     } finally {
-        result = memberService.sign_up_confirm(req, res);
+        memberService.sign_up_confirm(req, res);
 
     }
 
@@ -80,9 +80,7 @@ router.get('/get_member', authAcceccToken, (req, res) => {
 })
 
 // 입력 회원 정보 가져오기
-router.get('/get_search_member', 
-    // passport.authenticate('jwt', { session: false }), 
-    (req, res) => {
+router.get('/get_search_member', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/get_search_member');
 
     memberService.get_search_member(req, res);
@@ -132,7 +130,7 @@ router.post('/modify_confirm', authAcceccToken, singleUploadMiddleware, (req, re
 })
 
 // 로그아웃 확인
-router.get('/sign_out_confirm', (req, res) => {
+router.get('/sign_out_confirm', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/sign_out_confirm');
 
     memberService.sign_out_confirm(req, res);
@@ -140,7 +138,7 @@ router.get('/sign_out_confirm', (req, res) => {
 })
 
 // 회원 탈퇴 확인
-router.get('/delete_confirm', (req, res) => {
+router.get('/delete_confirm', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/delete_confirm');
 
     memberService.delete_confirm(req, res);
@@ -148,7 +146,7 @@ router.get('/delete_confirm', (req, res) => {
 })
 
 // 친구 요청
-router.get('/friend_request', (req, res) => {
+router.get('/friend_request', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_request');
 
     memberService.friend_request(req, res);
@@ -156,7 +154,7 @@ router.get('/friend_request', (req, res) => {
 })
 
 // 친구 요청 수락
-router.post('/friend_confirm', (req, res) => {
+router.post('/friend_confirm', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_confirm');
 
     memberService.friend_confirm(req, res);
@@ -164,7 +162,7 @@ router.post('/friend_confirm', (req, res) => {
 })
 
 // 친구 삭제
-router.post('/friend_delete_confirm', (req, res) => {
+router.post('/friend_delete_confirm', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_delete_confirm');
 
     memberService.friend_delete_confirm(req, res);
@@ -172,7 +170,7 @@ router.post('/friend_delete_confirm', (req, res) => {
 })
 
 // 친구 수 카운트
-router.get('/get_friend_count', (req, res) => {
+router.get('/get_friend_count', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_count');
 
     memberService.get_friend_count(req, res);
@@ -180,7 +178,7 @@ router.get('/get_friend_count', (req, res) => {
 })
 
 // 친구 목록 가져오기
-router.get('/get_friend_list', (req, res) => {
+router.get('/get_friend_list', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_list');
 
     memberService.get_friend_list(req, res);
