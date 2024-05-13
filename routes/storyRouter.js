@@ -119,7 +119,7 @@ storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware, (r
 */
 
 // 스토리 삭제 컨펌
-storyRouter.delete('/delete_confirm', authAcceccToken, (req, res) => {
+storyRouter.delete('/delete_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/delete_confirm');
     storyService.delete_confirm(req, res);
     
