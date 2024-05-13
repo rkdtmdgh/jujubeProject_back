@@ -65,6 +65,9 @@ app.get('/', (req, res) => {
 const memberRouter = require('./routes/memberRouter');
 app.use('/member', memberRouter);
 
+const authRouter = require('./routes/authRouter');
+app.use('/auth', authRouter);
+
 const storyRouter = require('./routes/storyRouter');
 app.use('/story/story', storyRouter.storyRouter);
 app.use('/story/reply', storyRouter.replyRouter);
