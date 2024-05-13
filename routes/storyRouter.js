@@ -95,7 +95,7 @@ storyRouter.get('/get_my_storys', authAcceccToken, (req, res) => {
 
 });
 
-// // 스토리 한개 가져오기 (modify용)
+// 스토리 한개 가져오기 (modify용)
 storyRouter.get('/get_story', authAcceccToken, (req, res) => {
     printLog(DAFAULT_NAME, '/story/get_story');
     storyService.get_story(req, res);
@@ -119,7 +119,7 @@ storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware, (r
 */
 
 // 스토리 삭제 컨펌
-storyRouter.delete('/delete_confirm', authAcceccToken, (req, res) => {
+storyRouter.delete('/delete_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/delete_confirm');
     storyService.delete_confirm(req, res);
     
