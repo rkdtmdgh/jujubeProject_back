@@ -145,6 +145,14 @@ router.get('/delete_confirm', authAcceccToken, (req, res) => {
 
 })
 
+// 친구 요청 유무 확인
+router.get('/friend_request_status', authAcceccToken, (req, res) => {
+    printLog(DEFAULT_NAME, '/friend_request_status');
+
+    memberService.friend_request_status(req, res);
+
+});
+
 // 친구 요청
 router.get('/friend_request', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_request');
@@ -153,9 +161,17 @@ router.get('/friend_request', authAcceccToken, (req, res) => {
 
 })
 
+// 친구 요청 취소
+router.get('/friend_request_cancel', authAcceccToken, (req, res) => {
+    printLog(DEFAULT_NAME, '/friend_request_cancel');
+
+    memberService.friend_request_cancle(req, res);
+
+});
+
 // 친구 요청 수락
-router.post('/friend_confirm', authAcceccToken, (req, res) => {
-    printLog(DEFAULT_NAME, '/friend_confirm');
+router.post('/friend_request_confirm', authAcceccToken, (req, res) => {
+    printLog(DEFAULT_NAME, '/friend_request_confirm');
 
     memberService.friend_confirm(req, res);
 
@@ -182,6 +198,14 @@ router.get('/get_friend_list', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_list');
 
     memberService.get_friend_list(req, res);
+
+})
+
+// 친구 유무 확인.
+router.get('/get_friend_status', authAcceccToken, (req, res) => {
+    printLog(DEFAULT_NAME, '/get_friend_status');
+
+    memberService.get_friend_status(req, res);
 
 })
 
