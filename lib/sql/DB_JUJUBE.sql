@@ -346,6 +346,8 @@ DROP TABLE TBL_FRIEND_REQUEST;
 -- --------------------------------------------------------
 
 
+SELECT * FROM TBL_STORY WHERE S_OWNER_ID = 'seari' AND S_IS_DELETED = 0 AND S_IS_PUBLIC = 0 AND S_IS_PUBLIC = 1 ORDER BY S_REG_DATE DESC;
+
 -- 친구 테이블 --------------------------------------------
 CREATE TABLE TBL_FRIEND(
 	F_NO INT AUTO_INCREMENT,                  -- 친구 NO

@@ -201,6 +201,14 @@ router.get('/get_friend_list', authAcceccToken, (req, res) => {
 
 })
 
+// 친구 신청 목록 가져오기
+router.get('/get_friend_request_list', authAcceccToken, (req, res) => {
+    printLog(DEFAULT_NAME, '/friend_request_list');
+
+    memberService.get_friend_request_list(req, res);
+
+})
+
 // 친구 유무 확인.
 router.post('/get_friend_status', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/get_friend_status');
