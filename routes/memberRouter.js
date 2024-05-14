@@ -202,7 +202,7 @@ router.get('/get_friend_list', authAcceccToken, (req, res) => {
 })
 
 // 친구 유무 확인.
-router.get('/get_friend_status', authAcceccToken, (req, res) => {
+router.post('/get_friend_status', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/get_friend_status');
 
     memberService.get_friend_status(req, res);
