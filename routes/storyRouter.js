@@ -104,7 +104,7 @@ storyRouter.get('/get_story', authAcceccToken, (req, res) => {
 
 
 // 스토리 수정 컨펌
-storyRouter.get('/modify_confirm', authAcceccToken, (req, res) => {
+storyRouter.get('/modify_confirm', (req, res) => {
     printLog(DAFAULT_NAME, '/story/modify_confirm');
     storyService.modify_confirm(req, res);
 
