@@ -154,7 +154,7 @@ router.get('/friend_request_status', authAcceccToken, (req, res) => {
 });
 
 // 친구 요청
-router.get('/friend_request', authAcceccToken, (req, res) => {
+router.post('/friend_request', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_request');
 
     memberService.friend_request(req, res);
