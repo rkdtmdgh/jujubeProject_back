@@ -346,6 +346,8 @@ DROP TABLE TBL_FRIEND_REQUEST;
 -- --------------------------------------------------------
 
 
+SELECT * FROM TBL_STORY WHERE S_OWNER_ID = 'seari' AND S_IS_DELETED = 0 AND S_IS_PUBLIC = 0 AND S_IS_PUBLIC = 1 ORDER BY S_REG_DATE DESC;
+
 -- 친구 테이블 --------------------------------------------
 CREATE TABLE TBL_FRIEND(
 	F_NO INT AUTO_INCREMENT,                  -- 친구 NO
@@ -373,7 +375,7 @@ SHOW INDEX FROM TBL_FRIEND;
 -- --------------------------------------------------------
 
 
--- 토큰 테이블 미구현 ----------------------
+-- 토큰 테이블 미구현 -------------------------------------
 CREATE TABLE TBL_TOKEN(
     M_ID VARCHAR(20) NOT NULL UNIQUE,
     TOKEN VARCHAR(1000) NOT NULL,
@@ -399,9 +401,6 @@ DROP EVENT delete_expired_tokens_event;
 
 -- --------------------------------------------------------
 
-
-
--- 신고 테이블 미구현(구현 여부 미정)----------------------
 
 -- --------------------------------------------------------
 

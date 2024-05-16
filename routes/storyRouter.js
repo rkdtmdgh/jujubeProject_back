@@ -104,24 +104,19 @@ storyRouter.get('/get_story', authAcceccToken, (req, res) => {
 
 
 // 스토리 수정 컨펌
-storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware, (req, res) => {
-    printLog(DAFAULT_NAME, '/story/modify_confirm');
+// storyRouter.get('/modify_confirm', (req, res) => {
+//     printLog(DAFAULT_NAME, '/story/modify_confirm');
+//     storyService.modify_confirm(req, res);
 
-    printLog(DAFAULT_NAME, 'modify_confirm files', req.files)
-    printLog(DAFAULT_NAME, 'modify_confirm post', req.body.curImg.split(','))
+// });
 
 
-    // storyService.modify_confirm(req, res);
-
-});
-
-/*
 storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/modify_confirm');
-    storyService.modifyConfirm(req, res);
+    storyService.modify_confirm(req, res);
 
 });
-*/
+
 
 // 스토리 삭제 컨펌
 storyRouter.delete('/delete_confirm', authAcceccToken, (req, res) => {
