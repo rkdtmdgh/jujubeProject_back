@@ -96,7 +96,7 @@ INSERT INTO TBL_STORY(S_OWNER_ID, S_TXT, S_IS_PUBLIC) VALUES('hihi', 'test3', 0)
 
 SHOW INDEX FROM TBL_STORY;
 -- --------------------------------------------------------
-SELECT * FROM TBL_STORY WHERE S_OWNER_ID = 'seari' AND S_IS_DELETED = 0 AND (S_IS_PUBLIC = 0 OR S_IS_PUBLIC = 1) ORDER BY S_REG_DATE DESC;
+
 
 -- 게시물 사진 테이블 -------------------------------------
 CREATE TABLE TBL_STORY_PICTURE(
@@ -340,13 +340,13 @@ CREATE TABLE TBL_FRIEND_REQUEST(
     PRIMARY KEY(FR_NO)
 );
 
-INSERT INTO TBL_FRIEND_REQUEST(FR_REQ_ID, FR_RES_ID, FR_ILCHON_NAME) VALUES('gildong', 'seari', '일촌명이걸로해주세용');
-
 SELECT * FROM TBL_FRIEND_REQUEST;
 DELETE FROM TBL_FRIEND_REQUEST;
 DROP TABLE TBL_FRIEND_REQUEST;
 -- --------------------------------------------------------
 
+
+SELECT * FROM TBL_STORY WHERE S_OWNER_ID = 'seari' AND S_IS_DELETED = 0 AND S_IS_PUBLIC = 0 AND S_IS_PUBLIC = 1 ORDER BY S_REG_DATE DESC;
 
 -- 친구 테이블 --------------------------------------------
 CREATE TABLE TBL_FRIEND(
@@ -370,7 +370,6 @@ INSERT INTO TBL_FRIEND(F_OWNER_ID, F_ID, F_ILCHON_NAME) VALUES('gildong', 'chanh
 INSERT INTO TBL_FRIEND(F_OWNER_ID, F_ID, F_ILCHON_NAME) VALUES('gildong', 'seari', '세리');
 INSERT INTO TBL_FRIEND(F_OWNER_ID, F_ID, F_ILCHON_NAME) VALUES('gildong', 'hihi', '하이하이');
 
-
 SHOW INDEX FROM TBL_FRIEND;
 
 -- --------------------------------------------------------
@@ -386,6 +385,8 @@ CREATE TABLE TBL_TOKEN(
 SELECT * FROM TBL_TOKEN;
 DELETE FROM TBL_TOKEN;
 DROP TABLE TBL_TOKEN;
+
+ALTER TABLE TBL_TOKEN ADD COLUMN TOKEN_EXP VARCHAR(30) NOT NULL AFTER TOKEN;
 
 -- 매일 한번 실행하여 30일이 지난 토큰을 지운다.
 CREATE EVENT IF NOT EXISTS delete_expired_tokens_event
