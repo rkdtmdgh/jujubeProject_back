@@ -130,7 +130,7 @@ router.post('/modify_confirm', authAcceccToken, singleUploadMiddleware, (req, re
 })
 
 // 로그아웃 확인
-router.get('/sign_out_confirm', authAcceccToken, (req, res) => {
+router.get('/sign_out_confirm', (req, res) => {
     printLog(DEFAULT_NAME, '/sign_out_confirm');
 
     memberService.sign_out_confirm(req, res);
@@ -161,13 +161,21 @@ router.post('/friend_request', authAcceccToken, (req, res) => {
 
 })
 
-// 친구 요청 취소
+// 내가 한 친구 요청 취소
 router.get('/friend_request_cancel', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_request_cancel');
 
     memberService.friend_request_cancle(req, res);
 
 });
+
+// 내가 받은 친구 요청 거절
+router.delete('/friend_request_reject', authAcceccToken , (req, res) => {
+    printLog(DEFAULT_NAME, '/friend_request_reject');
+
+    memberService.friend_request_reject(req, res);
+
+})
 
 // 친구 요청 수락 test
 router.get('/friend_request_confirm', (req, res) => {
