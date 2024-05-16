@@ -6,6 +6,7 @@ const replyService = require('../lib/service/replyService');
 const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
 const pictureUploadMiddleware = uploads.pictureUpload.array('files', 10);
+const pictureUploadMiddleware_modify = uploads.pictureUpload_modify.array('files', 10);
 const { authAcceccToken } = require('../lib/middleware/authorization')
 
 const Jimp = require('jimp');
@@ -102,18 +103,44 @@ storyRouter.get('/get_story', authAcceccToken, (req, res) => {
 
 });
 
-
 // 스토리 수정 컨펌
-// storyRouter.get('/modify_confirm', (req, res) => {
-//     printLog(DAFAULT_NAME, '/story/modify_confirm');
-//     storyService.modify_confirm(req, res);
-
-// });
-
-
-storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware, (req, res) => {
+storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware_modify, (req, res) => {
     printLog(DAFAULT_NAME, '/modify_confirm');
-    storyService.modify_confirm(req, res);
+    
+    try {
+
+        for (let i = 0; i < req.files.length; i++) {
+            Jimp.read(req.files[i].path)
+                .then((image) => {
+
+                    const maxWidth = 400; // 가로 너비 최대값
+                    const maxHeight = 400; // 세로 높이 최대값
+                
+                    let width, height;
+                
+                    // 가로 너비를 400픽셀로 고정하고 세로 높이를 원본 비율에 맞춰 계산
+                    width = maxWidth;
+                    height = image.bitmap.height * (width / image.bitmap.width);
+                
+                    // 세로 높이가 400픽셀을 초과하면 세로 높이를 400픽셀로 고정하고 가로 너비를 원본 비율에 맞춰 계산
+                    if (height > maxHeight) {
+                        height = maxHeight;
+                        width = image.bitmap.width * (height / image.bitmap.height);
+                    }
+
+                    image
+                        .resize(width, height)
+                        .quality(80)
+                        .write(req.files[i].path)
+                })
+            }
+
+        storyService.modify_confirm(req, res);
+
+    } catch (error) {
+        printLog(DAFAULT_NAME, '/write_confirm sharp error', error);
+    }
+    
 
 });
 
