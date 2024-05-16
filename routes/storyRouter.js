@@ -6,6 +6,7 @@ const replyService = require('../lib/service/replyService');
 const { printLog } = require('../lib/utils/logger');
 const uploads = require('../lib/utils/uploads');
 const pictureUploadMiddleware = uploads.pictureUpload.array('files', 10);
+const pictureUploadMiddleware_modify = uploads.pictureUpload_modify.array('files', 10);
 const { authAcceccToken } = require('../lib/middleware/authorization')
 
 const Jimp = require('jimp');
@@ -111,7 +112,7 @@ storyRouter.get('/get_story', authAcceccToken, (req, res) => {
 // });
 
 
-storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware, (req, res) => {
+storyRouter.post('/modify_confirm', authAcceccToken, pictureUploadMiddleware_modify, (req, res) => {
     printLog(DAFAULT_NAME, '/modify_confirm');
     storyService.modify_confirm(req, res);
 
