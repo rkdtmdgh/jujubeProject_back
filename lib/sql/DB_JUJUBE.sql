@@ -74,6 +74,28 @@ SELECT * FROM TBL_STORY;
 DELETE FROM TBL_STORY;
 DROP TABLE TBL_STORY;
 
+
+SET @pageNum = 1;
+SET @limitCnt = 3;
+SET @last_id = 300;
+        
+                    SELECT s.* 
+                            FROM TBL_STORY s 
+                            WHERE (s.S_OWNER_ID IN (
+                                    SELECT F_ID 
+                                    FROM TBL_FRIEND 
+                                    WHERE F_OWNER_ID = ? AND F_IS_BLOCK = 0 
+                                ) OR s.S_OWNER_ID = ?) 
+                                AND s.S_IS_DELETED = 0 
+                                AND ( 
+                                    s.S_IS_PUBLIC = 0 
+                                    OR s.S_IS_PUBLIC = 1 
+                                    OR (s.S_IS_PUBLIC = -1 AND s.S_OWNER_ID = ?) 
+                                ) 
+                                AND s.S_NO < @last_id 
+                            ORDER BY s.S_REG_DATE DESC 
+                            LIMIT @limitCnt;
+
 ALTER TABLE TBL_STORY CHANGE S_DELETD_DATE S_DELETED_DATE DATETIME;
 
 CREATE INDEX S_OWNER_ID ON TBL_STORY (S_OWNER_ID ASC);
