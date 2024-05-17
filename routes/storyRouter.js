@@ -19,33 +19,33 @@ const DAFAULT_NAME = 'storyRouter';
 storyRouter.post('/write_confirm', authAcceccToken, pictureUploadMiddleware, (req, res) => {
     printLog(DAFAULT_NAME, '/write_confirm');
 
-    try {
+    // try {
 
-        for (let i = 0; i < req.files.length; i++) {
-            Jimp.read(req.files[i].path)
-                .then((image) => {
+    //     for (let i = 0; i < req.files.length; i++) {
+    //         Jimp.read(req.files[i].path)
+    //             .then((image) => {
 
-                    const maxWidth = 400; // 가로 너비 최대값
-                    const maxHeight = 400; // 세로 높이 최대값
+    //                 const maxWidth = 400; // 가로 너비 최대값
+    //                 const maxHeight = 400; // 세로 높이 최대값
                 
-                    let width, height;
+    //                 let width, height;
                 
-                    // 가로 너비를 400픽셀로 고정하고 세로 높이를 원본 비율에 맞춰 계산
-                    width = maxWidth;
-                    height = image.bitmap.height * (width / image.bitmap.width);
+    //                 // 가로 너비를 400픽셀로 고정하고 세로 높이를 원본 비율에 맞춰 계산
+    //                 width = maxWidth;
+    //                 height = image.bitmap.height * (width / image.bitmap.width);
                 
-                    // 세로 높이가 400픽셀을 초과하면 세로 높이를 400픽셀로 고정하고 가로 너비를 원본 비율에 맞춰 계산
-                    if (height > maxHeight) {
-                        height = maxHeight;
-                        width = image.bitmap.width * (height / image.bitmap.height);
-                    }
+    //                 // 세로 높이가 400픽셀을 초과하면 세로 높이를 400픽셀로 고정하고 가로 너비를 원본 비율에 맞춰 계산
+    //                 if (height > maxHeight) {
+    //                     height = maxHeight;
+    //                     width = image.bitmap.width * (height / image.bitmap.height);
+    //                 }
 
-                    image
-                        .resize(width, height)
-                        .quality(80)
-                        .write(req.files[i].path)
-                })
-            }
+    //                 image
+    //                     .resize(width, height)
+    //                     .quality(80)
+    //                     .write(req.files[i].path)
+    //             })
+    //         }
         
         let destination = req.files[0].destination;
         let lastFolderName = destination.split('\\');
@@ -74,9 +74,9 @@ storyRouter.post('/write_confirm', authAcceccToken, pictureUploadMiddleware, (re
             })
         */
 
-    } catch (error) {
-        printLog(DAFAULT_NAME, '/write_confirm sharp error', error);
-    }
+    // } catch (error) {
+    //     printLog(DAFAULT_NAME, '/write_confirm sharp error', error);
+    // }
 
 
 });
