@@ -178,14 +178,13 @@ router.delete('/friend_request_reject', authAcceccToken , (req, res) => {
 })
 
 // 친구 요청 수락 test
-/*
-router.get('/friend_request_confirm', (req, res) => {
+router.post('/friend_request_confirm', (req, res) => {
     printLog(DEFAULT_NAME, '/friend_request_confirm');
 
     memberService.friend_request_confirm(req, res);
 
 })
-*/
+
 
 // 친구 요청 수락
 
