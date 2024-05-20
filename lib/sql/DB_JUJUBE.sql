@@ -74,29 +74,6 @@ SELECT * FROM TBL_STORY;
 DELETE FROM TBL_STORY;
 DROP TABLE TBL_STORY;
 
-
-SET @pageNum = 1;
-SET @limitNum = 3;
-SET @last_id = 100;
-SET @limiValue = 3;
-        
-                    SELECT s.* 
-                            FROM TBL_STORY s 
-                            WHERE (s.S_OWNER_ID IN (
-                                    SELECT F_ID 
-                                    FROM TBL_FRIEND 
-                                    WHERE F_OWNER_ID = 'gildong' AND F_IS_BLOCK = 0 
-                                ) OR s.S_OWNER_ID = 'gildong') 
-                                AND s.S_IS_DELETED = 0 
-                                AND ( 
-                                    s.S_IS_PUBLIC = 0 
-                                    OR s.S_IS_PUBLIC = 1 
-                                    OR (s.S_IS_PUBLIC = -1 AND s.S_OWNER_ID = 'gildong') 
-                                ) 
-                                AND s.S_NO < @last_id 
-                            ORDER BY s.S_REG_DATE DESC 
-                            LIMIT 3;
-
 ALTER TABLE TBL_STORY CHANGE S_DELETD_DATE S_DELETED_DATE DATETIME;
 
 CREATE INDEX S_OWNER_ID ON TBL_STORY (S_OWNER_ID ASC);
@@ -351,7 +328,7 @@ SHOW INDEX FROM TBL_REPLY_LIKE;
 -- --------------------------------------------------------
 
 
--- 친구 요청 테이블 ---------------------------------------
+-- 친구 요청 테이블 ---------------------------------------TBL_REPLY_LIKE
 CREATE TABLE TBL_FRIEND_REQUEST(
 	FR_NO INT AUTO_INCREMENT,                  -- 친구 요청 NO
 	FR_REQ_ID VARCHAR(20) NOT NULL,               -- 친구 신청 하는 사람 ID
@@ -398,7 +375,7 @@ SHOW INDEX FROM TBL_FRIEND;
 -- --------------------------------------------------------
 
 
--- 토큰 테이블 미구현 -------------------------------------
+-- 토큰 테이블  -------------------------------------
 CREATE TABLE TBL_TOKEN(
     M_ID VARCHAR(20) NOT NULL UNIQUE,
     TOKEN VARCHAR(1000) NOT NULL,
@@ -427,6 +404,14 @@ DROP EVENT delete_expired_tokens_event;
 -- --------------------------------------------------------
 
 
--- --------------------------------------------------------
+-- 중복 로그인 방지 테이블 --------------------------------------------------------
+CREATE TABLE TBL_IS_LOGIN(
+    M_ID VARCHAR(20) NOT NULL UNIQUE,
+    TOKEN VARCHAR(1000) NOT NULL,
+    REG_DATE DATETIME DEFAULT NOW()
+);
 
+SELECT * FROM TBL_IS_LOGIN;
+DELETE FROM TBL_IS_LOGIN;
+DROP TABLE TBL_IS_LOGIN;
 
