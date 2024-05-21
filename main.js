@@ -42,9 +42,10 @@ app.use(session(sessionObj));
 
 // CORS START
 app.use(cors({
-    origin: `http://localhost:3000`,
+    origin: DEV_PROD_VARIABLE.REACT_APP_HOST,
     credentials: true,
 }));
+
 // CORS END
 
 // PASSPORT SETTING START
