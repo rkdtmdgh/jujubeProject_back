@@ -41,15 +41,11 @@ app.use(session(sessionObj));
 // SESSION SETTING END
 
 // CORS START
-// app.use(cors({
-//     origin: `http://localhost:3000`,
-//     credentials: true,
-// }));
-
 app.use(cors({
-    origin: `https://3.39.103.84:3000/`,
+    origin: DEV_PROD_VARIABLE.REACT_APP_HOST,
     credentials: true,
 }));
+
 // CORS END
 
 // PASSPORT SETTING START
