@@ -404,17 +404,15 @@ DROP EVENT delete_expired_tokens_event;
 -- --------------------------------------------------------
 
 
--- 중복 로그인 방지 테이블 --------------------------------------------------------
-CREATE TABLE TBL_IS_LOGIN(
+-- 중복 로그인 방지 테이블(미구현) --------------------------------------------------------
+CREATE TABLE TBL_ISLOGIN(
     M_ID VARCHAR(20) NOT NULL UNIQUE,
     TOKEN VARCHAR(1000) NOT NULL,
     MOD_DATE DATETIME DEFAULT NOW(),
     REG_DATE DATETIME DEFAULT NOW()
 );
 
-
-
-SELECT * FROM TBL_IS_LOGIN;
-DELETE FROM TBL_IS_LOGIN;
-DROP TABLE TBL_IS_LOGIN;
+SELECT * FROM TBL_ISLOGIN;
+DELETE FROM TBL_ISLOGIN;
+DROP TABLE TBL_ISLOGIN;
 

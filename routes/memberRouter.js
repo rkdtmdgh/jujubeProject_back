@@ -162,7 +162,7 @@ router.post('/friend_request', authAcceccToken, (req, res) => {
 })
 
 // 내가 한 친구 요청 취소
-router.get('/friend_request_cancel', authAcceccToken, (req, res) => {
+router.post('/friend_request_cancel', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_request_cancel');
 
     memberService.friend_request_cancle(req, res);
