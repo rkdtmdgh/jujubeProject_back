@@ -1,5 +1,4 @@
 const express = require('express');
-const os = require('os');
 const storyRouter = express.Router();
 const replyRouter = express.Router();
 const storyService = require('../lib/service/storyService');
@@ -11,6 +10,7 @@ const pictureUploadMiddleware_modify = uploads.pictureUpload_modify.array('files
 const { authAcceccToken } = require('../lib/middleware/authorization')
 
 const Jimp = require('jimp');
+const DEV_PROD_VARIABLE = require('../lib/config/config');
 
 const DAFAULT_NAME = 'storyRouter';
 
@@ -49,11 +49,7 @@ storyRouter.post('/write_confirm', authAcceccToken, pictureUploadMiddleware, (re
     //         }
         
         let destination = req.files[0].destination;
-        let lastFolderName = destination.split('/');
-
-        if(os.version().includes('Windows')) {
-            lastFolderName = destination.split('\\');
-        }
+        let lastFolderName = destination.split(DEV_PROD_VARIABLE.LASTFOLDERNAME);
 
         let savedDir = lastFolderName[lastFolderName.length - 2]
 
