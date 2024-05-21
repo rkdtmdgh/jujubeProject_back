@@ -48,7 +48,7 @@ storyRouter.post('/write_confirm', authAcceccToken, pictureUploadMiddleware, (re
     //         }
         
         let destination = req.files[0].destination;
-        let lastFolderName = destination.split('\\');
+        let lastFolderName = destination.split('/');
         let savedDir = lastFolderName[lastFolderName.length - 2]
 
         storyService.write_confirm(req, res, savedDir);

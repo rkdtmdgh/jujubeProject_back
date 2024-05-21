@@ -21,8 +21,8 @@ app.use(compression());
 app.use(cookieParser());
 
 const DAFAULT_NAME = 'main';  
-app.use(express.static('C:\\jujube\\upload\\profile_thums\\'));
-app.use(express.static('C:\\jujube\\upload\\storyPictures\\'));
+app.use(express.static(`${DEV_PROD_VARIABLE.STORY_PICTURES_DIR}`));
+app.use(express.static(`${DEV_PROD_VARIABLE.MEMBER_PROFILE_THUM_DIR}`));
 
 
 // SESSION SETTING START
@@ -42,7 +42,7 @@ app.use(session(sessionObj));
 
 // CORS START
 app.use(cors({
-    origin: DEV_PROD_VARIABLE.REACT_APP_HOST,
+    origin: [...DEV_PROD_VARIABLE.REACT_APP_HOST],
     credentials: true,
 }));
 
