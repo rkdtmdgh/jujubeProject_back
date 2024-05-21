@@ -1,4 +1,5 @@
 const express = require('express');
+const os = require('os');
 const storyRouter = express.Router();
 const replyRouter = express.Router();
 const storyService = require('../lib/service/storyService');
@@ -49,6 +50,11 @@ storyRouter.post('/write_confirm', authAcceccToken, pictureUploadMiddleware, (re
         
         let destination = req.files[0].destination;
         let lastFolderName = destination.split('/');
+
+        if(os.version().includes('Windows')) {
+            lastFolderName = destination.split('\\');
+        }
+
         let savedDir = lastFolderName[lastFolderName.length - 2]
 
         storyService.write_confirm(req, res, savedDir);
