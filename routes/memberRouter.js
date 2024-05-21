@@ -185,15 +185,16 @@ router.post('/friend_request_confirm', authAcceccToken, (req, res) => {
 
 })
 
+
 // 친구 요청 수락
-/*
+
 router.post('/friend_request_confirm', authAcceccToken, (req, res) => {
     printLog(DEFAULT_NAME, '/friend_request_confirm');
 
     memberService.friend_confirm(req, res);
 
 })
-*/
+
 
 // 친구 삭제
 router.post('/friend_delete_confirm', authAcceccToken, (req, res) => {
